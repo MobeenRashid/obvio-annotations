@@ -18,19 +18,19 @@ export default function LoginPage() {
       form.confirmPassword as HTMLInputElement
     ).value.trim();
 
-    const newErrors: Record<string, string> = {};
+    const formErrors: Record<string, string> = {};
 
-    if (!fullName) newErrors.fullName = 'Full name is required';
-    if (!email) newErrors.email = 'Email is required';
+    if (!fullName) formErrors.fullName = 'Full name is required';
+    if (!email) formErrors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(email))
-      newErrors.email = 'Enter a valid email';
-    if (!password) newErrors.password = 'Password is required';
+      formErrors.email = 'Enter a valid email';
+    if (!password) formErrors.password = 'Password is required';
     if (confirmPassword !== password)
-      newErrors.confirmPassword = 'Passwords do not match';
+      formErrors.confirmPassword = 'Passwords do not match';
 
-    setErrors(newErrors);
+    setErrors(formErrors);
 
-    if (Object.keys(newErrors).length === 0) {
+    if (Object.keys(formErrors).length === 0) {
       console.log({ fullName, email, password, confirmPassword });
     }
   };
@@ -47,9 +47,7 @@ export default function LoginPage() {
               alt="Obvio"
               className="h-12 w-32 object-contain"
             />
-            <p className="text-sm text-gray-600">
-              Sign in to continue to your dashboard
-            </p>
+            <p className="text-sm text-gray-600">Sign up to your dashboard</p>
           </header>
 
           <form onSubmit={handleSubmit} className="space-y-6">

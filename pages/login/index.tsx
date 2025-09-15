@@ -2,8 +2,30 @@ import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function LoginPage() {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+
+    const email = (form.email as HTMLInputElement).value.trim();
+    const password = (form.password as HTMLInputElement).value.trim();
+
+    const formErrors: Record<string, string> = {};
+
+    if (!email) formErrors.email = 'Email is required';
+    if (!password) formErrors.password = 'Password is required';
+
+    setErrors(formErrors);
+
+    if (Object.keys(formErrors).length === 0) {
+      console.log({ email, password });
+    }
+  };
+
   return (
     <main className="flex min-h-screen bg-white">
       <section className="flex flex-col justify-center w-full md:w-1/2 px-8 lg:px-16">
@@ -23,21 +45,29 @@ export default function LoginPage() {
             </p>
           </header>
 
-          <form className="space-y-6">
-            <Input
-              id="email"
-              type="email"
-              label="Email"
-              placeholder="you@example.com"
-              required
-            />
-            <Input
-              id="password"
-              type="password"
-              label="Password"
-              placeholder="••••••••"
-              required
-            />
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div>
+              <Input
+                id="email"
+                type="email"
+                label="Email"
+                placeholder="you@example.com"
+              />
+              {errors.email && (
+                <p className="text-xs text-red-500 mt-1">{errors.email}</p>
+              )}
+            </div>
+            <div>
+              <Input
+                id="password"
+                type="password"
+                label="Password"
+                placeholder="Enter password"
+              />
+              {errors.password && (
+                <p className="text-xs text-red-500 mt-1">{errors.password}</p>
+              )}
+            </div>
 
             <Button type="submit">Login</Button>
           </form>
