@@ -45,7 +45,13 @@ const VideoPlayer = ({
 
   return (
     <div
-      className={cn('relative mx-auto rounded-lg bg-blue-950', className)}
+      className={cn(
+        'relative w-full h-fit max-h-[600px] rounded-lg',
+        className,
+        {
+          'bg-blue-950': isLoading,
+        }
+      )}
       onMouseOver={() => {
         setShowPlayButton(true);
       }}
@@ -57,14 +63,16 @@ const VideoPlayer = ({
     >
       <video
         ref={videoRef}
-        className="w-full rounded-lg"
+        className="w-fit h-fit rounded-lg"
         src={src}
         preload="auto"
         onLoadStart={() => {
           setIsLoading(true);
+          setCanPlay(false);
         }}
         onWaiting={() => {
           setIsLoading(true);
+          setCanPlay(false);
         }}
         onCanPlay={() => {
           setIsLoading(false);
@@ -73,6 +81,7 @@ const VideoPlayer = ({
         onError={() => {
           setIsLoading(false);
           setError(true);
+          setCanPlay(false);
         }}
       />
       {isLoading ? (

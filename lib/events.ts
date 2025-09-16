@@ -36,10 +36,17 @@ const getNextVideo = async (): Promise<Event | null> => {
   return data?.[0] || null;
 };
 
-const markVideo = async (id: string, status: 'accepted' | 'rejected') => {
+const markVideo = async (
+  id: string,
+  status: 'accepted' | 'rejected',
+  reason?: string[]
+) => {
   const response = await supabase
     .from('events')
-    .update({ status })
+    .update({
+      status,
+      ...(status === 'rejected' ? { rejection_reason: reason } : {}),
+    })
     .eq('id', id)
     .select();
 
