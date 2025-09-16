@@ -61,6 +61,7 @@ export default function Home() {
       setProgress((p) => ({ ...p, reviewed: p.reviewed + 1 }));
       const next = await events.getNextVideo();
       setCurrentVideo(next);
+      setVehicle(null);
     } finally {
       setWaitingForAction(false);
       setSelectedIssues([]);
