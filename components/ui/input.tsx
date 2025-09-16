@@ -1,11 +1,20 @@
 import { InputHTMLAttributes } from 'react';
-import clsx from 'clsx';
+import cn from 'clsx';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
 }
 
-export function Input({ label, className, ...props }: InputProps) {
+const Input = ({ label, className, ...props }: InputProps) => {
+  const inputClassNames = cn(
+    'block w-full rounded-xl border border-gray-400 px-4 py-2 outline-none',
+    'bg-white placeholder-gray-500 text-gray-900',
+    'focus:border-gray-800 focus:ring-1 focus:ring-gray-800 focus:outline-none',
+    className
+  );
+
+  if (!label) return <input {...props} className={inputClassNames} />;
+
   return (
     <div className="space-y-1">
       <label
@@ -14,15 +23,10 @@ export function Input({ label, className, ...props }: InputProps) {
       >
         {label}
       </label>
-      <input
-        {...props}
-        className={clsx(
-          'block w-full rounded-xl border border-gray-400 px-4 py-2 outline-none',
-          'bg-white placeholder-gray-500 text-gray-900',
-          'focus:border-gray-800 focus:ring-1 focus:ring-gray-800 focus:outline-none',
-          className
-        )}
-      />
+
+      <input {...props} className={inputClassNames} />
     </div>
   );
-}
+};
+
+export default Input;

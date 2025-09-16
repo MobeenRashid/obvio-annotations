@@ -1,15 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from 'next/image';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import Input from '@/components/ui/input';
+import Button from '@/components/ui/button';
 import Link from 'next/link';
 import { useState } from 'react';
+import * as auth from '@/lib/auth';
+import { useAuthContext } from '@/context/auth';
+import { AuthError } from '@supabase/supabase-js';
+import { useRouter } from 'next/router';
+import Alert from '@/components/ui/alert';
+import { ObvioLogo } from '@/icons';
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [authError, setAuthError] = useState<AuthError | null>();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { setAuthContext } = useAuthContext();
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setAuthError(null);
+
     const form = e.target as HTMLFormElement;
     const fullName = (form.fullName as HTMLInputElement).value.trim();
     const email = (form.email as HTMLInputElement).value.trim();
@@ -31,7 +44,21 @@ export default function LoginPage() {
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length === 0) {
-      console.log({ fullName, email, password, confirmPassword });
+      try {
+        setIsLoading(true);
+        const response = await auth.signUp(fullName, email, password);
+
+        if (response.error) {
+          setAuthError(response.error);
+        } else {
+          const user = response.data?.user || undefined;
+          const token = response.data?.session?.access_token;
+          setAuthContext(user, token);
+          router.push('/');
+        }
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -40,13 +67,7 @@ export default function LoginPage() {
       <section className="flex flex-col justify-center w-full md:w-1/2 px-8 lg:px-16">
         <div className="max-w-md w-full mx-auto">
           <header className="mb-10 space-y-1">
-            <Image
-              src="https://cdn.prod.website-files.com/68111b35f1cd5612fbfd95fe/68111b44369a366e3e3a2a11_Logo_Obvio%20(1).svg"
-              width={111}
-              height={34}
-              alt="Obvio"
-              className="h-12 w-32 object-contain"
-            />
+            <ObvioLogo className="h-12 w-32" />
             <p className="text-sm text-gray-600">Sign up to your dashboard</p>
           </header>
 
@@ -100,8 +121,11 @@ export default function LoginPage() {
                 </p>
               )}
             </div>
+            {authError && <Alert variant="error">{authError.message}</Alert>}
 
-            <Button type="submit">Sign up</Button>
+            <Button type="submit" disabled={isLoading} className="w-full">
+              {isLoading ? 'Signing up...' : 'Sign up'}
+            </Button>
           </form>
 
           <footer className="mt-8 text-center text-sm text-gray-600">
