@@ -133,7 +133,7 @@ export default function Home() {
               </div>
               <VideoPlayer
                 src={currentVideo.video_url}
-                className="min-h-[350px]"
+                className="min-h-[250px] md:min-h-[350px]"
               />
             </Card>
 

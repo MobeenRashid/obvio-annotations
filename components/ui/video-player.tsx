@@ -46,7 +46,7 @@ const VideoPlayer = ({
   return (
     <div
       className={cn(
-        'relative w-full h-fit max-h-[600px] rounded-lg',
+        'relative w-full h-fit max-h-[400px] md:max-h-[600px] rounded-lg',
         className,
         {
           'bg-blue-950': isLoading,
