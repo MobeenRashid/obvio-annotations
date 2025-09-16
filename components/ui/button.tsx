@@ -19,7 +19,7 @@ const Button = ({
     outline:
       'bg-transparent text-gray-900 border border-gray-200 hover:bg-gray-200 focus:bg-gray-300',
     primary: 'bg-gray-800 text-white hover:bg-gray-700 focus:bg-gray-900',
-    secondary: 'bg-white text-gray-900 hover:bg-gray-200',
+    secondary: 'bg-white text-gray-900 hover:bg-gray-200 focus:bg-gray-300',
     destructive: 'bg-red-600 text-white hover:bg-red-700 focus:bg-red-800',
   };
 

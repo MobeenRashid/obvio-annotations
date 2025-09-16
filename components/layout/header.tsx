@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import { PUBLIC_ROUTES } from '../auth-guard';
 import Button from '../ui/button';
 import { useState } from 'react';
-import { ObvioLogo } from '@/icons';
 import ObvioAnnotationsLogo from '@/icons/obvio-annotations-logo';
+import Avatar from '../ui/avatar';
 
 export default function Header() {
   const [waitingForSignout, setIsWaitingForSignout] = useState<boolean>(false);
@@ -36,9 +36,7 @@ export default function Header() {
 
       {user && (
         <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-600">
-            {user.email ?? 'Anonymous'}
-          </span>
+          <Avatar name={user.email ?? 'Anonymous'} />
           <Button onClick={handleLogout} variant="secondary">
             {waitingForSignout ? 'Signing out...' : 'Sign out'}
           </Button>
