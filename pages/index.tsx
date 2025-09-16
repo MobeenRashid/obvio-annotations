@@ -241,7 +241,7 @@ export default function Home() {
             </div>
           </Card>
 
-          <div className="sticky bottom-4 start-1/2 -translate-x-1/2 flex justify-center gap-4 bg-amber-100/60  p-4 w-fit backdrop-blur-lg rounded-xl shadow-sm shadow-amber-100">
+          <div className="md:sticky md:bottom-4 md:start-1/2 md:-translate-x-1/2 flex items-center justify-center flex-wrap gap-4 bg-amber-100/60  p-4 w-full md:w-fit backdrop-blur-lg rounded-xl shadow-sm shadow-amber-100">
             <Button
               className="!bg-green-600 hover:!bg-green-500 h-14 px-6"
               onClick={() => handleAction('accepted')}
