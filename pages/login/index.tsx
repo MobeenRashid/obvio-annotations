@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element  -- to show local auth hero image */
+
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
 import Link from 'next/link';
@@ -112,29 +114,7 @@ export default function LoginPage() {
         </section>
 
         <aside className="hidden md:block w-1/2 relative">
-          <video
-            autoPlay
-            loop
-            id="9309c072-36f0-dde7-6cf9-3a00277177f9-video"
-            style={{
-              backgroundImage:
-                'url(https://cdn.prod.website-files.com/680f9f3e62e98505910f487f%2F6840a2b68117758eda2f9ab1_Home_Page_Hero-poster-00001.jpg)',
-            }}
-            muted={true}
-            playsInline
-            data-wf-ignore="true"
-            data-object-fit="cover"
-            className="h-full object-cover"
-          >
-            <source
-              src="https://cdn.prod.website-files.com/680f9f3e62e98505910f487f%2F6840a2b68117758eda2f9ab1_Home_Page_Hero-transcode.mp4"
-              data-wf-ignore="true"
-            />
-            <source
-              src="https://cdn.prod.website-files.com/680f9f3e62e98505910f487f%2F6840a2b68117758eda2f9ab1_Home_Page_Hero-transcode.webm"
-              data-wf-ignore="true"
-            />
-          </video>
+          <img src="/auth-hero.svg" className="h-full object-cover" alt="" />
         </aside>
       </div>
     </>
