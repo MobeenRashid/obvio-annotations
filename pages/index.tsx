@@ -230,7 +230,7 @@ export default function Home() {
                   }
                   className={`h-10 p-4 text-sm font-medium ${
                     selectedIssues.includes(issue)
-                      ? '!bg-gray-100 border-2 !border-blue-500 !text-gray-800'
+                      ? '!bg-red-50 border-2 !border-red-500 !text-gray-800'
                       : ''
                   }`}
                   onClick={() => toggleIssue(issue)}
@@ -241,7 +241,7 @@ export default function Home() {
             </div>
           </Card>
 
-          <div className="sticky bottom-4 start-1/2 -translate-x-1/2 flex justify-center gap-4 bg-amber-100/60 p-4 w-fit backdrop-blur-lg rounded-xl">
+          <div className="sticky bottom-4 start-1/2 -translate-x-1/2 flex justify-center gap-4 bg-amber-100/60  p-4 w-fit backdrop-blur-lg rounded-xl shadow-sm shadow-amber-100">
             <Button
               className="!bg-green-600 hover:!bg-green-500 h-14 px-6"
               onClick={() => handleAction('accepted')}
