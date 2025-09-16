@@ -79,9 +79,9 @@ export default function SignupPage() {
                 label="Full name"
                 placeholder="Enter full name"
               />
-              {errors.fullName && (
+              {errors.fullName ? (
                 <p className="text-xs text-red-500 mt-1">{errors.fullName}</p>
-              )}
+              ) : null}
             </div>
 
             <div>
@@ -91,9 +91,9 @@ export default function SignupPage() {
                 label="Email"
                 placeholder="you@example.com"
               />
-              {errors.email && (
+              {errors.email ? (
                 <p className="text-xs text-red-500 mt-1">{errors.email}</p>
-              )}
+              ) : null}
             </div>
 
             <div>
@@ -103,9 +103,9 @@ export default function SignupPage() {
                 label="Password"
                 placeholder="Enter password"
               />
-              {errors.password && (
+              {errors.password ? (
                 <p className="text-xs text-red-500 mt-1">{errors.password}</p>
-              )}
+              ) : null}
             </div>
 
             <div>
@@ -115,13 +115,15 @@ export default function SignupPage() {
                 label="Confirm Password"
                 placeholder="Enter confirm password"
               />
-              {errors.confirmPassword && (
+              {errors.confirmPassword ? (
                 <p className="text-xs text-red-500 mt-1">
                   {errors.confirmPassword}
                 </p>
-              )}
+              ) : null}
             </div>
-            {authError && <Alert variant="error">{authError.message}</Alert>}
+            {authError ? (
+              <Alert variant="error">{authError.message}</Alert>
+            ) : null}
 
             <Button type="submit" disabled={isLoading} className="w-full">
               {isLoading ? 'Signing up...' : 'Sign up'}

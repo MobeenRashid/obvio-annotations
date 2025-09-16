@@ -1,4 +1,5 @@
 import { useAuthContext } from '@/context/auth';
+import { ObvioLogo } from '@/icons';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
 
@@ -23,7 +24,7 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-900 border-t-transparent" />
+        <ObvioLogo className="animate-pulse" />
       </div>
     );
   }

@@ -19,6 +19,10 @@ const VideoPlayer = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [showPlayButton, setShowPlayButton] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [canPlay, setCanPlay] = useState(false);
+  const [error, setError] = useState(false);
+
   useEffect(() => {
     if (!videoRef.current) return;
 
@@ -51,39 +55,70 @@ const VideoPlayer = ({
         }
       }}
     >
-      <video ref={videoRef} className="w-full rounded-lg" src={src}></video>
-      {poster && (
+      <video
+        ref={videoRef}
+        className="w-full rounded-lg"
+        src={src}
+        preload="auto"
+        onLoadStart={() => {
+          setIsLoading(true);
+        }}
+        onWaiting={() => {
+          setIsLoading(true);
+        }}
+        onCanPlay={() => {
+          setIsLoading(false);
+          setCanPlay(true);
+        }}
+        onError={() => {
+          setIsLoading(false);
+          setError(true);
+        }}
+      />
+      {isLoading ? (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-white text-xl">Loading...</span>
+        </div>
+      ) : null}
+      {error ? (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-white text-xl">Error loading video</span>
+        </div>
+      ) : null}
+      {poster ? (
         <img
           src={poster}
           className="w-full h-auto object-cover"
           alt="Video poster"
         />
-      )}
+      ) : null}
 
-      <div
-        className={cn(
-          'absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex justify-center items-center transition-all ease-in-out duration-200',
-          {
-            'opacity-0': !showPlayButton,
-            'opacity-100': showPlayButton,
-          }
-        )}
-      >
-        <Button
-          onClick={togglePlay}
-          className="!bg-white hover:!bg-gray-200 !text-gray-900 transition-colors"
-        >
-          {isPlaying ? (
-            <>
-              <Pause className="w-5 h-5" /> Pause
-            </>
-          ) : (
-            <>
-              <Play className="w-5 h-5" /> Play
-            </>
+      {canPlay ? (
+        <div
+          className={cn(
+            'absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex justify-center items-center transition-all ease-in-out duration-200',
+            {
+              'opacity-0': !showPlayButton,
+              'opacity-100': showPlayButton,
+            }
           )}
-        </Button>
-      </div>
+        >
+          <Button
+            onClick={togglePlay}
+            className="!bg-white hover:!bg-gray-200 !text-gray-900 transition-colors"
+          >
+            {isPlaying ? (
+              <>
+                <Pause className="w-5 h-5" /> Pause
+              </>
+            ) : (
+              <>
+                <Play className="w-5 h-5" /> Play
+              </>
+            )}
+          </Button>
+        </div>
+      ) : null}
     </div>
   );
 };

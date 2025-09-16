@@ -7,6 +7,7 @@ import Input from '@/components/ui/input';
 import VideoPlayer from '@/components/ui/video-player';
 import * as events from '@/lib/events';
 import { Event } from '@/lib/events';
+import { Vehicle } from '@/lib/types';
 
 export default function Home() {
   const [selectedIssues, setSelectedIssues] = useState<string[]>([]);
@@ -16,6 +17,9 @@ export default function Home() {
 
   const [currentVideo, setCurrentVideo] = useState<Event | null>(null);
   const [progress, setProgress] = useState({ reviewed: 0, total: 0 });
+
+  const [waitingForDMV, setWaitingForDMV] = useState(false);
+  const [vehicle, setVehicle] = useState<Vehicle | null>(null);
 
   const issues = [
     'False Positive Event',
@@ -61,6 +65,22 @@ export default function Home() {
     }
   };
 
+  const handleLookup = async () => {
+    if (!licenseNumber) return;
+
+    setWaitingForDMV(true);
+    setVehicle(null);
+
+    try {
+      const res = await fetch(`/api/dmv-lookup?plate=${licenseNumber}`);
+      const data: Vehicle = await res.json();
+      setVehicle(data);
+    } finally {
+      setWaitingForDMV(false);
+      setLicenseNumber('');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-[calc(100vh-100px)] flex items-center justify-center">
@@ -84,13 +104,13 @@ export default function Home() {
   return (
     <div className="font-sans min-h-screen pb-20 p-8">
       <main className="relative space-y-10">
-        {waitingForAction && (
+        {waitingForAction ? (
           <div className="fixed z-10 inset-0 bg-white/50 flex items-center justify-center">
             <h2 className="text-xl font-semibold text-gray-900">
               Processing...
             </h2>
           </div>
-        )}
+        ) : null}
         <h2 className="text-center text-3xl font-semibold text-gray-900">
           {progress.reviewed} / {progress.total}{' '}
           <span className="text-sm">reviewed</span>
@@ -108,7 +128,6 @@ export default function Home() {
             <VideoPlayer src={currentVideo.video_url} />
           </Card>
 
-          {/* License Plate Card */}
           <Card className="bg-white shadow-sm space-y-3">
             <div>
               <h3 className="text-xl font-semibold text-gray-900">
@@ -142,11 +161,47 @@ export default function Home() {
                   onChange={(e) => setLicenseNumber(e.target.value)}
                   className="flex-1"
                 />
-                <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6">
+                <Button
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-6"
+                  onClick={handleLookup}
+                >
                   Lookup DMV
                 </Button>
               </div>
             </div>
+            {waitingForDMV ? (
+              <div className="p-4 bg-gray-100 rounded-lg">
+                <p className="text-sm text-gray-800">
+                  Loading vehicle information...
+                </p>
+              </div>
+            ) : null}
+            {vehicle ? (
+              <div className="p-4 bg-gray-100 rounded-lg">
+                <div className="space-y-2">
+                  <div className="flex gap-4">
+                    <p className="text-sm font-semibold text-gray-800 w-48">
+                      License Plate Number
+                    </p>
+                    <p className="text-sm text-gray-600">{vehicle.plate}</p>
+                  </div>
+                  <div className="flex gap-4">
+                    <p className="text-sm font-semibold text-gray-800 w-48">
+                      Vehicle Information
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      {vehicle.make} {vehicle.model}
+                    </p>
+                  </div>
+                  <div className="flex gap-4">
+                    <p className="text-sm font-semibold text-gray-800  w-48">
+                      Vehicle Color
+                    </p>
+                    <p className="text-sm text-gray-600">{vehicle.color}</p>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </Card>
         </div>
         <Card className="bg-white shadow-sm space-y-2">

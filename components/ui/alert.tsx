@@ -24,7 +24,9 @@ const Alert = ({ children, variant = 'error', className }: AlertProps) => {
       )}
       role="alert"
     >
-      {variant === 'error' && <AlertTriangle className="w-4 h-4 shrink-0" />}
+      {variant === 'error' ? (
+        <AlertTriangle className="w-4 h-4 shrink-0" />
+      ) : null}
       <span>{children}</span>
     </div>
   );

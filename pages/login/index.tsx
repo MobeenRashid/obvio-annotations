@@ -62,7 +62,9 @@ export default function LoginPage() {
               Sign in to continue to your dashboard
             </p>
           </header>
-          {authError && <Alert variant="error">{authError.message}</Alert>}
+          {authError ? (
+            <Alert variant="error">{authError.message}</Alert>
+          ) : null}
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
@@ -72,9 +74,9 @@ export default function LoginPage() {
                 label="Email"
                 placeholder="you@example.com"
               />
-              {errors.email && (
+              {errors.email ? (
                 <p className="text-xs text-red-500 mt-1">{errors.email}</p>
-              )}
+              ) : null}
             </div>
             <div>
               <Input
@@ -83,9 +85,9 @@ export default function LoginPage() {
                 label="Password"
                 placeholder="Enter password"
               />
-              {errors.password && (
+              {errors.password ? (
                 <p className="text-xs text-red-500 mt-1">{errors.password}</p>
-              )}
+              ) : null}
             </div>
             <Button type="submit" className="w-full">
               {isLoading ? 'Logging in...' : 'Login'}
