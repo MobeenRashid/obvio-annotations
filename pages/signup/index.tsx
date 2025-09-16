@@ -1,5 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element  -- to show local auth hero image */
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
 import Link from 'next/link';
@@ -9,8 +8,8 @@ import { useAuthContext } from '@/context/auth';
 import { AuthError } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import Alert from '@/components/ui/alert';
-import { ObvioLogo } from '@/icons';
 import Head from 'next/head';
+import ObvioAnnotationsLogo from '@/icons/obvio-annotations-logo';
 
 export default function SignupPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -72,7 +71,7 @@ export default function SignupPage() {
         <section className="flex flex-col justify-center w-full md:w-1/2 px-8 lg:px-16">
           <div className="max-w-md w-full mx-auto">
             <header className="mb-10 space-y-1">
-              <ObvioLogo className="h-12 w-32" />
+              <ObvioAnnotationsLogo />
               <p className="text-sm text-gray-600">Sign up to your dashboard</p>
             </header>
 
@@ -148,11 +147,7 @@ export default function SignupPage() {
         </section>
 
         <aside className="hidden md:block w-1/2 relative">
-          <img
-            src="https://cdn.prod.website-files.com/680f9f3e62e98505910f487f/682b2df2a6c1ad631a5f2b05_Obvio%20-%20Product%20Page%20-%20Solar%20Powered.svg"
-            className="h-full object-cover"
-            alt=""
-          />
+          <img src="/auth-hero.svg" className="h-full object-cover" alt="" />
         </aside>
       </div>
     </>

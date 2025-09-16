@@ -5,6 +5,7 @@ import { PUBLIC_ROUTES } from '../auth-guard';
 import Button from '../ui/button';
 import { useState } from 'react';
 import { ObvioLogo } from '@/icons';
+import ObvioAnnotationsLogo from '@/icons/obvio-annotations-logo';
 
 export default function Header() {
   const [waitingForSignout, setIsWaitingForSignout] = useState<boolean>(false);
@@ -31,15 +32,7 @@ export default function Header() {
 
   return (
     <header className="w-full bg-white text-gray-900 px-6 py-4 flex items-center justify-between border-b border-gray-200">
-      <div
-        onClick={() => router.push('/')}
-        className="relative cursor-pointer h-[44px]"
-      >
-        <ObvioLogo />
-        <span className="bg-gray-200 text-gray-80 text-[10px] font-semibold px-3 py-1 rounded-full absolute -end-10 top-[24px]">
-          Annotations
-        </span>
-      </div>
+      <ObvioAnnotationsLogo onClick={() => router.push('/')} />
 
       {user && (
         <div className="flex items-center gap-4">

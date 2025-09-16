@@ -7,8 +7,8 @@ import * as auth from '@/lib/auth';
 import { useAuthContext } from '@/context/auth';
 import { useRouter } from 'next/router';
 import Alert from '@/components/ui/alert';
-import { ObvioLogo } from '@/icons';
 import Head from 'next/head';
+import ObvioAnnotationsLogo from '@/icons/obvio-annotations-logo';
 
 export default function LoginPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -62,7 +62,7 @@ export default function LoginPage() {
         <section className="flex flex-col justify-center w-full md:w-1/2 px-8 lg:px-16">
           <div className="max-w-md w-full mx-auto space-y-6">
             <header className="mb-10 space-y-1">
-              <ObvioLogo className="h-12 w-32" />
+              <ObvioAnnotationsLogo />
               <p className="text-sm text-gray-600">
                 Sign in to continue to your dashboard
               </p>
